@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历编辑器</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-edit"></i> 简历编辑器</h1>
+            <p class="subtitle">在线编辑您的简历，支持导出Word和PDF格式</p>
+            <div class="btn-group">
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> 查看简历
+                </a>
+                <button onclick="saveAllData()" class="btn btn-success">
+                    <i class="fas fa-save"></i> 保存简历
+                </button>
+                <button onclick="resetToDefault()" class="btn btn-danger">
+                    <i class="fas fa-redo"></i> 恢复默认
+                </button>
+            </div>
+        </header>
+
+        <div class="card">
+            <div id="message" class="message"></div>
+            
+            <!-- 个人信息 -->
+            <div class="form-section">
+                <h2><i class="fas fa-user"></i> 个人信息</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" placeholder="请输入您的姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">职位</label>
+                        <input type="text" id="title" placeholder="例如：机器学习工程师">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input type="email" id="email" placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">电话</label>
+                        <input type="tel" id="phone" placeholder="+86 138-0000-0000">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="github">GitHub链接</label>
+                        <input type="url" id="github" placeholder="https://github.com/yourusername">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn链接</label>
+                        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourusername">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location">地点</label>
+                    <input type="text" id="location" placeholder="例如：北京, 中国">
+                </div>
+            </div>
+
+            <!-- 个人摘要 -->
+            <div class="form-section">
+                <h2><i class="fas fa-file-alt"></i> 个人摘要</h2>
+                <div class="form-group">
+                    <textarea id="summary" placeholder="简要介绍您的专业背景、技能和经验..." rows="5"></textarea>
+                </div>
+            </div>
+
+            <!-- 工作经历 -->
+            <div class="form-section">
+                <h2><i class="fas fa-briefcase"></i> 工作经历</h2>
+                <div id="experience-container">
+                    <!-- 工作经历会动态添加到这里 -->
+                </div>
+                <button onclick="addExperience()" class="btn btn-primary" style="margin-top: 10px;">
+                    <i class="fas fa-plus"></i> 添加工作经历
+                </button>
+            </div>
+
+            <!-- 项目经验 -->
+            <div class="form-section">
+                <h2><i class="fas fa-project-diagram"></i> 项目经验</h2>
+                <div id="projects-container">
+                    <!-- 项目经验会动态添加到这里 -->
+                </div>
+                <button onclick="addProject()" class="btn btn-primary" style="margin-top: 10px;">
+                    <i class="fas fa-plus"></i> 添加项目经验
+                </button>
+            </div>
+
+            <!-- 技能 -->
+            <div class="form-section">
+                <h2><i class="fas fa-code"></i> 技能</h2>
+                <div class="form-group">
+                    <div class="input-with-button">
+                        <input type="text" id="new-skill" placeholder="输入技能后按Enter或点击添加">
+                        <button onclick="addSkill()" class="btn btn-sm btn-primary" style="margin-left: 10px;">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </div>
+                </div>
+                <div id="skills-container" class="skills-container">
+                    <!-- 技能标签会动态添加到这里 -->
+                </div>
+            </div>
+
+            <!-- 教育背景 -->
+            <div class="form-section">
+                <h2><i class="fas fa-graduation-cap"></i> 教育背景</h2>
+                <div id="education-container">
+                    <!-- 教育背景会动态添加到这里 -->
+                </div>
+                <button onclick="addEducation()" class="btn btn-primary" style="margin-top: 10px;">
+                    <i class="fas fa-plus"></i> 添加教育背景
+                </button>
+            </div>
+
+            <!-- 证书 -->
+            <div class="form-section">
+                <h2><i class="fas fa-certificate"></i> 证书</h2>
+                <div id="certifications-container">
+                    <!-- 证书会动态添加到这里 -->
+                </div>
+                <button onclick="addCertification()" class="btn btn-primary" style="margin-top: 10px;">
+                    <i class="fas fa-plus"></i> 添加证书
+                </button>
+            </div>
+
+            <!-- 语言 -->
+            <div class="form-section">
+                <h2><i class="fas fa-language"></i> 语言能力</h2>
+                <div id="languages-container">
+                    <!-- 语言会动态添加到这里 -->
+                </div>
+                <button onclick="addLanguage()" class="btn btn-primary" style="margin-top: 10px;">
+                    <i class="fas fa-plus"></i> 添加语言
+                </button>
+            </div>
+
+            <div class="btn-group" style="margin-top: 30px;">
+                <button onclick="saveAllData()" class="btn btn-success">
+                    <i class="fas fa-save"></i> 保存所有更改
+                </button>
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> 查看简历
+                </a>
+                <button onclick="exportData()" class="btn btn-primary">
+                    <i class="fas fa-download"></i> 导出数据
+                </button>
+                <button onclick="importData()" class="btn btn-primary">
+                    <i class="fas fa-upload"></i> 导入数据
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>处理中，请稍候...</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="editor.js"></script>
+</body>
+</html>
