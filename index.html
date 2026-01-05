@@ -1,168 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="[Your Name] - Resume | [Your Job Title] | Skills: [Key Skills]">
-    <meta name="author" content="[Your Name]">
-    <title>[Your Name] - Resume</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            line-height: 1.6;
-            color: #333;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #0077b6;
-        }
-        .name {
-            font-size: 2.2rem;
-            color: #0077b6;
-        }
-        .title {
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-top: 0.5rem;
-        }
-        .contact {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        .contact a {
-            color: #0077b6;
-            text-decoration: none;
-            margin: 0 0.5rem;
-        }
-        .section {
-            margin-bottom: 1.8rem;
-        }
-        .section-title {
-            font-size: 1.3rem;
-            color: #0077b6;
-            margin-bottom: 1rem;
-            display: inline-block;
-            border-bottom: 1px solid #0077b6;
-        }
-        .item {
-            margin-bottom: 1.2rem;
-        }
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 0.3rem;
-        }
-        .item-title {
-            font-weight: 600;
-        }
-        .item-subtitle {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
-        }
-        .skill-tag {
-            background-color: #e6f7ff;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: #0077b6;
-        }
-        /* 响应式适配 */
-        @media (max-width: 600px) {
-            .name {
-                font-size: 1.8rem;
-            }
-            .item-header {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <title>我的简历</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="header">
-        <h1 class="name">[Your Full Name]</h1>
-        <p class="title">[Your Job Title, e.g. Machine Learning Engineer]</p>
-        <div class="contact">
-            <a href="mailto:your.email@example.com">your.email@example.com</a>
-            <a href="https://github.com/yourusername">GitHub</a>
-            <a href="https://linkedin.com/in/yourusername">LinkedIn</a>
-            <span>[Your Location]</span>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Summary</h2>
-        <p>A concise summary about your experience, core skills and career focus. 
-        E.g. ML Engineer with 3+ years of experience in developing LLM-based medical image analysis systems, 
-        proficient in Python, Streamlit and model deployment.</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Experience</h2>
-        <div class="item">
-            <div class="item-header">
-                <span class="item-title">[Job Title]</span>
-                <span>[Start Date - End Date]</span>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-file-alt"></i> 我的在线简历</h1>
+            <p class="subtitle">支持在线编辑和多种格式导出</p>
+            <div class="btn-group">
+                <a href="editor.html" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> 编辑简历
+                </a>
+                <button onclick="exportPDF()" class="btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> 导出PDF
+                </button>
+                <button onclick="exportWord()" class="btn btn-success">
+                    <i class="fas fa-file-word"></i> 导出Word
+                </button>
+                <button onclick="window.print()" class="btn btn-primary">
+                    <i class="fas fa-print"></i> 打印简历
+                </button>
             </div>
-            <div class="item-subtitle">[Company Name] | [Location]</div>
-            <ul>
-                <li>Designed and implemented [Project Name], achieving [Quantified Result, e.g. 30% improvement in model accuracy]</li>
-                <li>Developed Streamlit web apps for [Purpose, e.g. medical report generation from SPECT images]</li>
-            </ul>
+        </header>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>正在生成文档，请稍候...</p>
         </div>
+
+        <div id="resume-content" class="resume-preview">
+            <!-- 简历内容会动态加载到这里 -->
+        </div>
+
+        <div class="btn-group" style="margin-top: 30px;">
+            <a href="editor.html" class="btn btn-primary">
+                <i class="fas fa-edit"></i> 继续编辑
+            </a>
+            <button onclick="exportPDF()" class="btn btn-danger">
+                <i class="fas fa-file-pdf"></i> 下载PDF
+            </button>
+            <button onclick="exportWord()" class="btn btn-success">
+                <i class="fas fa-file-word"></i> 下载Word
+            </button>
+            <button onclick="shareResume()" class="btn btn-primary">
+                <i class="fas fa-share-alt"></i> 分享简历
+            </button>
+        </div>
+
+        <div id="message" class="message"></div>
     </div>
 
-    <div class="section">
-        <h2 class="section-title">Projects</h2>
-        <div class="item">
-            <div class="item-header">
-                <span class="item-title">[Project Name]</span>
-                <span>[Year]</span>
-            </div>
-            <ul>
-                <li>Tech Stack: [e.g. Python, PyTorch, Streamlit, GitHub Pages]</li>
-                <li>Responsibilities: [Key tasks and outcomes]</li>
-                <li>Link: <a href="[Project URL]">GitHub/ Demo Link</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Skills</h2>
-        <div class="skills">
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">Machine Learning</span>
-            <span class="skill-tag">Streamlit</span>
-            <span class="skill-tag">HTML/CSS</span>
-            <span class="skill-tag">GitHub Pages</span>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Education</h2>
-        <div class="item">
-            <div class="item-header">
-                <span class="item-title">[Degree, e.g. Master of Science in Computer Science]</span>
-                <span>[Graduation Date]</span>
-            </div>
-            <div class="item-subtitle">[University Name] | [Location]</div>
-        </div>
-    </div>
+    <!-- 外部库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://unpkg.com/docx@7.7.0/build/index.js"></script>
+    <script src="script.js"></script>
+    <script src="preview.js"></script>
 </body>
 </html>
